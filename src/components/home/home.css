@@ -1,0 +1,11 @@
+.btn-entrar,
+.btn-cadastrar {
+    background-color: #8538a6;
+    width: 150px;
+    border: none;
+}
+
+.btn-entrar:hover,
+.btn-cadastrar:hover {
+    background-color: #470459;
+}
