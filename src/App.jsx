@@ -8,6 +8,8 @@ import Registrar from './components/registrar/Registrar';
 import Login from './components/login/Login';
 import Recuperar from './components/recuperar/Recuperar';
 import Faturamento from './components/faturamento/Faturamento';
+import Gerenciamento from './components/Gerenciamento/Gerenciamento';
+import Registros from './components/Registros/Registros';
 
 
 function App() {
@@ -21,7 +23,9 @@ function App() {
           <Route path="/registrar" element={<Registrar />} />
           <Route path="/login" element={<Login />} />
           <Route path="/recuperar" element={<Recuperar />} />
-          <Route path="/faturamento" element={<Faturamento />} />
+          <Route path="/meumei" element={<Faturamento />} />
+          <Route path="/gerenciamento" element={<Gerenciamento />} />
+          <Route path="/registros" element={<Registros />} />
         </Routes>
       </BrowserRouter>
     </>
