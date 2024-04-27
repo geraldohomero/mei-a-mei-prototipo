@@ -5,11 +5,12 @@ import Button from 'react-bootstrap/Button';
 import ProgressBar from 'react-bootstrap/ProgressBar';
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
-import { useState } from 'react';
 
 import './faturamento.css'
 import RegistrarVendas from '../RegistrarVendas/RegistrarVendas';
 import RegistrarDespesas from '../RegistrarDespesas/RegistrarDespesas';
+import GraficoMes from '../Graficos/GraficoMes';
+import GraficoAno from '../Graficos/GraficoAno';
 
 const Faturamento = () => {
   return (
@@ -70,8 +71,17 @@ const Faturamento = () => {
           </Row>
         </Col>
       </Row>
+      {/* Gráficos de despesas e receitas  */}
+      <Row>
+        <Col className='border border-warning p-3 m-3'>
+          <div className='d-flex justify-content-between'>
+            <GraficoMes className='border border-warning p-3 m-3' />
+            <GraficoAno className='border border-warning p-3 m-3' />
+          </div>
+        </Col>
+      </Row>
 
-    </Container>
+    </Container >
   )
 }
 
