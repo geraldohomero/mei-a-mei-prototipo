@@ -75,11 +75,14 @@ const Faturamento = () => {
         <Col className='border border-warning p-3 m-3'>
           <div className='d-flex justify-content-between'>
             <GraficoMes className='border border-warning p-3 m-3' />
+          </div>
+        </Col>
+        <Col className='border border-warning p-3 m-3'>
+          <div className='d-flex justify-content-between'>
             <GraficoAno className='border border-warning p-3 m-3' />
           </div>
         </Col>
       </Row>
-
     </Container >
   )
 }

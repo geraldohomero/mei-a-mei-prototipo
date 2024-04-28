@@ -1,7 +1,7 @@
 import { Line } from 'react-chartjs-2'
 import { Chart, registerables } from 'chart.js'
+import './Graficos.css'
 
-{ /* must have label Despesas and Receitas during all mounth (30...31 days)*/ }
 Chart.register(...registerables)
 const GraficoMes = () => {
   const data = {
@@ -24,15 +24,18 @@ const GraficoMes = () => {
     ],
   }
   const options = {
-    responsive: false,
-    maintainAspectRatio: true,
+    responsive: true,
+    maintainAspectRatio: false,
   }
 
+
   return (
-    <div >
-      <h3>Controle Financeiro Mês</h3>
-      <Line data={data} options={options} />
-    </div >
+    <div className="FlexContainer">
+      <div className="ChartContainer">
+        <h3>Controle Financeiro Mês</h3>
+        <Line data={data} options={options} />
+      </div>
+    </div>
   );
 
 }
