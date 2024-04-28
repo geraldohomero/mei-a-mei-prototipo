@@ -32,7 +32,6 @@ const Faturamento = () => {
               </div>
             </Col>
           </Row>
-
         </Col>
         <Col className='border border-warning p-3 m-3'>
           <div className='d-flex justify-content-between'>

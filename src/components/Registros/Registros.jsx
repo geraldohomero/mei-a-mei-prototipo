@@ -3,16 +3,34 @@ import React from 'react'
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import Form from 'react-bootstrap/Form';
 import Table from 'react-bootstrap/Table';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
-import { useState } from 'react';
+
+import { useState, useEffect } from 'react';
 
 const Registros = () => {
+    const [faturamentos, setFaturamentos] = useState([])
+    const [despesas, setDespesas] = useState([])
+    const [produtos, setProdutos] = useState([])
+
+    useEffect(() => {
+        fetch('https://localhost:7097/api/Faturamentos')
+            .then(response => response.json())
+            .then(
+                (data) => {
+                    setFaturamentos(data)
+
+                }
+            )
+        fetch('https://localhost:7097/api/Despesas')
+            .then(response => response.json())
+            .then(
+                (data) => {
+                    setDespesas(data)
+                }
+            )
+    })
+
+
     return (
         <Container fluid className='w-75 mt-3 bg-light'>
             <Row>
@@ -30,31 +48,17 @@ const Registros = () => {
                                         <th>Valor</th>
                                     </tr>
                                 </thead>
-                                <tbody className='table-group-divider'>
-                                    <tr>
-                                        <td>17/04/2024</td>
-                                        <td>Lavagem de carro</td>
-                                        <td>Serviço</td>
-                                        <td>Dinheiro</td>
-                                        <td>R$ 700,00</td>
-                                    </tr>
-                                    <tr>
-                                        <td>22/04/2024</td>
-                                        <td>Biscoito cx 100</td>
-                                        <td>Produto</td>
-                                        <td>Cartão</td>
-                                        <td>R$ 225,70</td>
-
-                                    </tr>
-                                    <tr>
-                                        <td>23/04/2024</td>
-                                        <td>Volante</td>
-                                        <td>Produto</td>
-                                        <td>PIX</td>
-                                        <td>R$ 100,00</td>
-
-                                    </tr>
-                                </tbody>
+                                {<tbody className='table-group-divider'>
+                                    {faturamentos.map((fat) => (
+                                        <tr key={fat.id}>
+                                            <td>{fat.dataFaturamento}</td>
+                                            <td>{fat.nome}</td>
+                                            <td>{fat.produtosId}</td>
+                                            <td>{fat.meioDePagamento}</td>
+                                            <td>{fat.valor}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>}
                             </Table>
                         </div>
                         </Col>
@@ -76,15 +80,16 @@ const Registros = () => {
                                         <th>Valor</th>
                                     </tr>
                                 </thead>
-                                <tbody className='table-group-divider'>
-                                    <tr>
-                                        <td>10/04/2024</td>
-                                        <td>Luz</td>
-                                        <td>Energia</td>
-                                        <td>R$ 100,00</td>
-                                    </tr>
-
-                                </tbody>
+                                {<tbody className='table-group-divider'>
+                                    {despesas.map((des) => (
+                                        <tr key={des.id}>
+                                            <td>{des.dataDespesa}</td>
+                                            <td>{des.nome}</td>
+                                            <td>{des.categoriasId}</td>
+                                            <td>{des.valor}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>}
                             </Table>
                         </div>
                         </Col>
