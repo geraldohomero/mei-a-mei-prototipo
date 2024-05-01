@@ -16,8 +16,8 @@ function Registrar() {
     try {
       const response = await axios.post('http://localhost:5062/api/Usuarios', {
         email,
-        senha, // Replace 'senha' with 'password'
-        nome, // Replace 'nome' with 'name'
+        senha,
+        nome,
         cnpj
       });
 
@@ -30,7 +30,7 @@ function Registrar() {
       console.log('Token JWT via E-mail: ' + token);
 
       // Redirecione o usuário para a página inicial
-      window.location.href = '/';
+      // window.location.href = '/';
     } catch (error) {
       console.error('Erro ao registrar', error);
     }
