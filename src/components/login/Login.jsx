@@ -3,21 +3,21 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 
 const Login = () => {
-    const [id, setId] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
         try {
-            // Faça a autenticação usando o ID e a senha do usuário
+            // Faça a autenticação usando o e-mail e a senha do usuário
             const authResponse = await fetch('http://localhost:5062/api/Usuarios/authenticate', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: id, // substitua userId pelo ID do usuário
+                    email: email,
                     senha: password
                 })
             });
@@ -28,17 +28,13 @@ const Login = () => {
 
             const data = await authResponse.json();
             const token = data.jwtToken;
+            console.log('Token JWT via E-mail: ' + token);
 
             if (!token) {
                 throw new Error('Token não encontrado');
             }
 
-            // Armazene o token no local storage
-            localStorage.setItem('jwtToken', token);
-
-            // Redirecione o usuário para a página inicial
-            //window.location.href = '/';
-            console.log('Login efetuado com sucesso...jwtToken: ' + token);
+            // Restante do código...
         } catch (error) {
             console.error('Erro ao fazer login', error);
         }
@@ -49,8 +45,8 @@ const Login = () => {
             <Form className='form-width m-auto py-5' onSubmit={handleSubmit}>
                 <h2>Login</h2>
                 <Form.Group className="mb-3">
-                    <Form.Label>Id</Form.Label>
-                    <Form.Control type="id" placeholder="numeros e letras" onChange={e => setId(e.target.value)} />
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control type="email" placeholder="email@email.com.br" onChange={e => setEmail(e.target.value)} />
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicPassword">

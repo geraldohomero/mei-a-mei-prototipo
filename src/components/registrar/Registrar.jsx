@@ -27,6 +27,7 @@ function Registrar() {
 
       // Armazene o token no local storage
       localStorage.setItem('jwtToken', token);
+      console.log('Token JWT via E-mail: ' + token);
 
       // Redirecione o usuário para a página inicial
       window.location.href = '/';
