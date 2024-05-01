@@ -10,7 +10,7 @@ const Login = () => {
         event.preventDefault();
 
         try {
-            // Faça a autenticação usando o e-mail e a senha do usuário
+            // Faz a autenticação usando o e-mail e a senha do usuário
             const authResponse = await fetch('http://localhost:5062/api/Usuarios/authenticate', {
                 method: 'POST',
                 headers: {
@@ -34,7 +34,6 @@ const Login = () => {
                 throw new Error('Token não encontrado');
             }
 
-            // Restante do código...
         } catch (error) {
             console.error('Erro ao fazer login', error);
         }
