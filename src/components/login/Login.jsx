@@ -30,9 +30,17 @@ const Login = () => {
             const token = data.jwtToken;
             console.log('Token JWT via E-mail: ' + token);
 
-            if (!token) {
+            if (token) {
+                // Redireciona o usuário para a página inicial
+                window.location.href = '/';
+                console.log('Token JWT via E-mail: ' + token);
+
+            } else {
                 throw new Error('Token não encontrado');
             }
+
+            // Armazena o token no localStorage
+            localStorage.setItem('token', token);
 
         } catch (error) {
             console.error('Erro ao fazer login', error);
