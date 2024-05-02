@@ -10,6 +10,7 @@ import Recuperar from './components/recuperar/Recuperar';
 import Faturamento from './components/faturamento/Faturamento';
 import Gerenciamento from './components/Gerenciamento/Gerenciamento';
 import Registros from './components/Registros/Registros';
+import Perfil from './components/Perfil/Perfil';
 
 
 function App() {
@@ -26,6 +27,7 @@ function App() {
           <Route path="/meumei" element={<Faturamento />} />
           <Route path="/gerenciamento" element={<Gerenciamento />} />
           <Route path="/registros" element={<Registros />} />
+          <Route path="/perfil" element={<Perfil />} />
         </Routes>
       </BrowserRouter>
     </>
