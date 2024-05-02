@@ -9,3 +9,45 @@
 .btn-cadastrar:hover {
     background-color: #470459;
 }
+
+.store-logo {
+    width: 250px;
+    height: auto;
+    margin-left: 43%;
+    margin-top: 10%;
+}
+
+.text-center p {
+    color: #6c757d;
+}
+
+.sobre {
+    padding: 20px;
+    border-radius: 10px;
+    margin-left: 23%;
+}
+
+
+@media screen and (max-width: 768px) {
+
+    .sobre {
+        align-items: center;
+        justify-content: center;
+        margin-left: 0;
+    }
+
+    .logo img {
+        width: 300px;
+        height: auto;
+        margin-left: 10%;
+    }
+
+    .store-logo {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin-left: 18%;
+    }
+
+}
