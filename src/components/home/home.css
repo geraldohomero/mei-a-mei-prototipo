@@ -1,53 +1,38 @@
+#root {
+  background-color: #f2f2f2;
+}
 .btn-entrar,
 .btn-cadastrar {
-    background-color: #8538a6;
-    width: 150px;
-    border: none;
+  background-color: #8538a6;
+  width: 150px;
+  border: none;
 }
 
 .btn-entrar:hover,
 .btn-cadastrar:hover {
-    background-color: #470459;
+  background-color: #470459;
 }
 
 .store-logo {
-    width: 250px;
-    height: auto;
-    margin-left: 43%;
-    margin-top: 10%;
-}
-
-.text-center p {
-    color: #6c757d;
+  width: 150px;
 }
 
 .sobre {
-    padding: 20px;
-    border-radius: 10px;
-    margin-left: 23%;
+  padding: 20px;
+  border-radius: 10px;
+  margin-left: 23%;
 }
 
-
-@media screen and (max-width: 768px) {
-
-    .sobre {
-        align-items: center;
-        justify-content: center;
-        margin-left: 0;
-    }
-
-    .logo img {
-        width: 300px;
-        height: auto;
-        margin-left: 10%;
-    }
-
-    .store-logo {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin-left: 18%;
-    }
-
+.funcionalidades-bg {
+  background-color: #ffffff;
+  height: 300px;
+}
+.dinheiro,
+.pcCel,
+.grafico {
+  max-width: 80px;
+}
+.whatsapp,
+.email {
+  max-width: 40px;
 }

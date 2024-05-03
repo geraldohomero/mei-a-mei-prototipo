@@ -1,3 +1,15 @@
 .form-width {
-    max-width: 300px;
+  max-width: 300px;
+}
+.logo {
+  width: 300px;
+}
+.bg-left {
+  background-color: #f2cb57;
+}
+.view {
+  height: 95vh;
+}
+.box {
+  margin: 200px auto;
 }
