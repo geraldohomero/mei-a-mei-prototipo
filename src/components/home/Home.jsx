@@ -99,7 +99,7 @@ const Home = () => {
             </Col>
           </Row>
         </section>
-        <section>
+        <section className="pb-5">
           <Row>
             <Col className="d-flex">
               <Col className="col-2"></Col>

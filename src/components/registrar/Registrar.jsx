@@ -1,18 +1,16 @@
 import { useState } from "react";
-import Button from "react-bootstrap/Button";
+
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import { Row, Col, Container, NavLink } from "react-bootstrap";
+import { Row, Col, Container } from "react-bootstrap";
 import Logo from "../../assets/Logo.svg";
 import "./registrar.css";
-import { Link } from "react-router-dom";
 
 function Registrar() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
-
-  const [razao, setRazao] = useState("");
+  const [nome, setNome] = useState("");
   const [cnpj, setCnpj] = useState("");
 
   const handleSubmit = async (event) => {
@@ -60,7 +58,7 @@ function Registrar() {
                       className="form-control"
                       type="text"
                       placeholder="Maria Joaquina"
-                      onChange={(e) => setRazao(e.target.value)}
+                      onChange={(e) => setNome(e.target.value)}
                     />
                   </Form.Group>
                   <Form.Group className="mb-3" controlId="formEmail">

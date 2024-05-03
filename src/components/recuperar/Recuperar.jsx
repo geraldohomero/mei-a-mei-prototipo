@@ -1,30 +1,55 @@
-import React from 'react'
-import Form from 'react-bootstrap/Form';
-import { Button } from 'react-bootstrap';
-import './recuperar.css'
+import { Row, Col, Container } from "react-bootstrap";
+import Form from "react-bootstrap/Form";
+import Logo from "../../assets/Logo.svg";
+
+import "./recuperar.css";
 
 const Recuperar = () => {
   return (
-    <>
-      <Form className='form-width m-auto'>
-        <h2 className="mt-5">Recuperação de conta</h2>
-        <Form.Group className="mb-3" controlId="formBasicEmail">
-          <Form.Label>Digite seu e-mail para recuperação de conta</Form.Label>
-          <Form.Control type="email" placeholder="nome@email.com" />
-          <Button className="mt-3" variant="primary" type="submit">
-          Recuperar
-        </Button>
-        </Form.Group>
-        
-        <Form.Text id="passwordHelpBlock" muted>
-          Caso seja um e-mail válido e cadastrado no nosso sistema, chegará uma nova senha.
-        </Form.Text>
-        
-      </Form>
+    <Container className="view dark-purple-text">
+      <div className="box">
+        <Row className="mt-3">
+          <Col className="col-7 bg-left">
+            <Row>
+              <div className="text-center mt-3">
+                <h1>Recuperação de Conta</h1>
+              </div>
+            </Row>
+            <Row>
+              <Form className="form-width m-auto py-5">
+                <Form.Group className="mb-3" controlId="formEmail">
+                  <h4 className="mb-4">
+                    Digite um e-mail apra recuperar a senha
+                  </h4>
+                  <Form.Control
+                    className="mb-4"
+                    type="email"
+                    placeholder="E-mail"
+                  />
+                  <Form.Text className="text-muted">
+                    <p className="mb-4">
+                      Caso seu e-mail seja válido em nossa base de dados, em
+                      breve você receberá um e-mail com a nova senha!
+                    </p>
+                  </Form.Text>
+                </Form.Group>
+                <div className="text-center">
+                  <button className="btn btn-criar" type="submit">
+                    Recuperar
+                  </button>
+                </div>
+              </Form>
+            </Row>
+          </Col>
+          <Col className="col-5 d-flex justify-content-center align-self-center">
+            <div className="">
+              <img className="logo" src={Logo} alt="" />
+            </div>
+          </Col>
+        </Row>
+      </div>
+    </Container>
+  );
+};
 
-
-    </>
-  )
-}
-
-export default Recuperar
+export default Recuperar;

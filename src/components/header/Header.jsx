@@ -20,10 +20,12 @@ const Header = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto color-navbar gap-3">
-            {isAuthenticated ? (
+          <Nav className="ms-auto color-navbar  gap-3">
+            {!isAuthenticated ? (
               <>
-                <Nav.Link href="/meumei">Meu MEI</Nav.Link>
+                <Nav.Link className="fw-bold" href="/meumei">
+                  Meu MEI
+                </Nav.Link>
                 <Nav.Link href="/gerenciamento">Gerenciamento</Nav.Link>
                 <Nav.Link href="/registros">Registros</Nav.Link>
                 <Nav.Link href="/perfil">Perfil</Nav.Link>

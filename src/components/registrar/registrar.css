@@ -2,7 +2,7 @@
   max-width: 300px;
 }
 .logo {
-  width: 300px;
+  width: 400px;
 }
 .bg-left {
   background-color: #f2cb57;
@@ -26,7 +26,7 @@
   background-color: #8538a6;
   color: #f2cb57;
 }
-a {
+.a-registrar {
   text-decoration: none;
   color: #f2cb57;
 }
