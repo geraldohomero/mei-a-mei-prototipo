@@ -26,6 +26,7 @@
 .funcionalidades-bg {
   background-color: #ffffff;
   height: 300px;
+  border-radius: 15px;
 }
 .dinheiro,
 .pcCel,

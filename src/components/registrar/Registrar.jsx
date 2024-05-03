@@ -2,14 +2,17 @@ import { useState } from "react";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
-import { Row, Col, Container } from "react-bootstrap";
+import { Row, Col, Container, NavLink } from "react-bootstrap";
 import Logo from "../../assets/Logo.svg";
 import "./registrar.css";
+import { Link } from "react-router-dom";
 
 function Registrar() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
-  const [nome, setNome] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+
+  const [razao, setRazao] = useState("");
   const [cnpj, setCnpj] = useState("");
 
   const handleSubmit = async (event) => {
@@ -40,20 +43,27 @@ function Registrar() {
 
   return (
     <div>
-      <Container className="view">
+      <Container className="view dark-purple-text">
         <div className="box">
           <Row className="mt-3">
             <Col className="col-7 bg-left">
               <Row>
-                <div className="text-center">
+                <div className="text-center mt-3">
                   <h1>Criar Conta</h1>
                 </div>
               </Row>
               <Row>
                 <Form className="form-width m-auto py-5">
-                  <h2>Faça seu cadastro!</h2>
-
-                  <Form.Group className="mb-3" controlId="formBasicEmail">
+                  <Form.Group className="mb-3" controlId="formRazao">
+                    <Form.Label>Razão Social</Form.Label>
+                    <Form.Control
+                      className="form-control"
+                      type="text"
+                      placeholder="Maria Joaquina"
+                      onChange={(e) => setRazao(e.target.value)}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formEmail">
                     <Form.Label>E-mail</Form.Label>
                     <Form.Control
                       type="email"
@@ -71,10 +81,20 @@ function Registrar() {
                       type="password"
                       placeholder="Senha"
                       onChange={(e) => setSenha(e.target.value)}
+                      value={senha}
+                    />
+                  </Form.Group>
+                  <Form.Group className="mb-3" controlId="formBasicPassword">
+                    <Form.Label>Confirmar senha</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="Senha"
+                      onChange={(e) => setConfirmarSenha(e.target.value)}
+                      value={confirmarSenha}
                     />
                   </Form.Group>
 
-                  <Form.Group className="mb-3" controlId="formBasicCnpj">
+                  <Form.Group className="mb-3" controlId="formCnpj">
                     <Form.Label>CNPJ</Form.Label>
                     <Form.Control
                       type="text"
@@ -82,13 +102,18 @@ function Registrar() {
                       onChange={(e) => setCnpj(e.target.value)}
                     />
                   </Form.Group>
-                  <Button
-                    variant="primary"
-                    type="submit"
-                    onClick={handleSubmit}
-                  >
-                    Enviar
-                  </Button>
+                  <div className="d-flex justify-content-between">
+                    <a href="/" className="btn btn-criar" role="button">
+                      Cancelar
+                    </a>
+                    <button
+                      className="btn btn-criar"
+                      type="submit"
+                      onClick={handleSubmit}
+                    >
+                      Cadastrar
+                    </button>
+                  </div>
                 </Form>
               </Row>
             </Col>
