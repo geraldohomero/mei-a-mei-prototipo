@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import { jwtDecode } from 'jwt-decode'; // Importe a biblioteca jwt-decode
 
 const RegistrarVendas = () => {
   const [venda, setVenda] = useState({
@@ -16,7 +17,8 @@ const RegistrarVendas = () => {
     meioDePagamento: "",
   });
 
-  const [produtosServicos, setProdutosServicos] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [produtosServicos, setProdutosServicos] = useState([])
 
   useEffect(() => {
     fetch("https://localhost:5062/api/Produtos")
@@ -27,15 +29,18 @@ const RegistrarVendas = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    const token = localStorage.getItem('token'); // Obtenha o token do localStorage
+    const decodedToken = jwtDecode(token); // Decodifique o token
+    const usuarioId = decodedToken.nameid; // Obtenha o usuarioId do token decodificado
     const vendaToSend = {
       ...venda,
+      usuarioId: usuarioId, // Adicione o usuarioId à venda
       produtosId: Array.isArray(venda.produtosId)
         ? venda.produtosId.map(String)
         : [],
       servicosId: Array.isArray(venda.servicosId)
         ? venda.servicosId.map(String)
         : [],
-      meioDePagamento: Number(venda.meioDePagamento),
     };
 
     fetch("http://localhost:5062/api/Faturamentos", {
@@ -99,7 +104,7 @@ const RegistrarVendas = () => {
             >
               <Form.Select name="meioDePagamento" onChange={handleChange}>
                 <option value="Dinheiro">Dinheiro</option>
-                <option value="Cartão">Cartão</option>
+                <option value="Cartao">Cartão</option>
                 <option value="PIX">PIX</option>
                 <option value="Outro">Outro</option>
               </Form.Select>

@@ -92,7 +92,7 @@ const Login = () => {
                     type="submit"
                     onClick={handleSubmit}
                   >
-                    Cadastrar
+                    Login
                   </button>
                 </div>
                 <div className="d-flex justify-content-center mt-3">
