@@ -1,15 +1,56 @@
-import React from "react";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import Form from "react-bootstrap/Form";
+import { jwtDecode } from "jwt-decode";
+import { useState } from "react";
 
 const RegistrarDespesas = () => {
+  const [despesa, setDespesa] = useState({
+    id: "",
+    nome: "",
+    valor: 0,
+    dataDespesa: "",
+    categoriasId: [],
+    usuarioId: "",
+  });
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
+    const token = localStorage.getItem('token'); // Obtenha o token do localStorage
+    const decodedToken = jwtDecode(token); // Decodifique o token
+    const usuarioId = decodedToken.nameid; // Obtenha o usuarioId do token decodificado
+
+    const despesaToSend = {
+      ...despesa,
+      usuarioId: usuarioId, // Adicione o usuarioId à despesa
+      categoriasId: [], // Adicione o campo categoriasId. Você precisará atualizar isso para incluir as categorias corretas.
+    };
+
+
+    fetch("http://localhost:5062/api/Despesas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(despesaToSend),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data));
+  };
+
+  const handleChange = (event) => {
+    setDespesa({
+      ...despesa,
+      [event.target.name]: event.target.value,
+    });
+  };
+
   return (
     <>
-      <Form className="d-flex justify-content-center" onSubmit={""}>
+      <Form className="d-flex justify-content-center" onSubmit={handleSubmit}>
         <div className="drv">
           <Row className="g-5 mb-3">
             <Col className="col-6">
@@ -21,7 +62,7 @@ const RegistrarDespesas = () => {
                   type="text"
                   name="nome"
                   placeholder=""
-                  onChange={"handleSubmit"}
+                  onChange={handleChange}
                 />
               </FloatingLabel>
             </Col>
@@ -38,8 +79,8 @@ const RegistrarDespesas = () => {
               <FloatingLabel controlId="floatingInputGrid" label="Data">
                 <Form.Control
                   type="date"
-                  name="dataFaturamento"
-                  onChange={""}
+                  name="dataDespesa"
+                  onChange={handleChange}
                 />
               </FloatingLabel>
             </Col>
@@ -52,14 +93,14 @@ const RegistrarDespesas = () => {
                   type="number"
                   name="valor"
                   placeholder=""
-                  onChange={"handleChange"}
+                  onChange={handleChange}
                 />
               </FloatingLabel>
             </Col>
           </Row>
           <Button variant="danger" type="submit">
             Adicionar despesa
-          </Button>
+          </Button> {''}
         </div>
       </Form>
     </>

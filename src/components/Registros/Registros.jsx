@@ -2,7 +2,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
-
+import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
 
 const Registros = () => {
@@ -10,27 +10,29 @@ const Registros = () => {
   const [despesas, setDespesas] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [servicos, setServicos] = useState([]);
+  const [userId, setUserId] = useState(null);
+
 
   useEffect(() => {
-    Promise.all([
-      fetch("http://localhost:5062/api/Faturamentos").then((response) =>
-        response.json()
-      ),
-      fetch("http://localhost:5062/api/Despesas").then((response) =>
-        response.json()
-      ),
-      fetch("http://localhost:5062/api/Produtos").then((response) =>
-        response.json()
-      ),
-      fetch("http://localhost:5062/api/Servicos").then((response) =>
-        response.json()
-      ),
-    ])
-      .then(([dataFaturamentos, dataDespesas, dataProdutos, dataServicos]) => {
-        setFaturamentos(dataFaturamentos);
-        console.log("Faturamentos:", dataFaturamentos);
+    const token = localStorage.getItem('token');
+    const decodedToken = jwtDecode(token);
+    setUserId(decodedToken.nameid); // Atualizando o estado do userId
+  }, []);
 
-        setDespesas(dataDespesas);
+  useEffect(() => {
+    if (userId) { // Verificando se userId está definido
+      Promise.all([
+        fetch('http://localhost:5062/api/Faturamentos').then(response => response.json()),
+        fetch('http://localhost:5062/api/Despesas').then(response => response.json()),
+        fetch('http://localhost:5062/api/Produtos').then(response => response.json()),
+        fetch('http://localhost:5062/api/Servicos').then(response => response.json())
+      ]).then(([dataFaturamentos, dataDespesas, dataProdutos, dataServicos]) => {
+        console.log('Faturamentos ANTES da filtragem:', dataFaturamentos); // Log dos faturamentos antes da filtragem
+        const faturamentosFiltrados = dataFaturamentos.filter(fat => String(fat.usuarioId) === String(userId));
+        setFaturamentos(faturamentosFiltrados);
+        console.log('Faturamentos DEPOIS da filtragem:', faturamentosFiltrados); // Log dos faturamentos depois da filtragem
+
+        setDespesas(dataDespesas.filter(des => String(des.usuarioId) === String(userId)));
         console.log("Despesas:", dataDespesas);
 
         setProdutos(dataProdutos);
@@ -39,10 +41,11 @@ const Registros = () => {
         setServicos(dataServicos);
         console.log("Serviços:", dataServicos);
       })
-      .catch((error) => {
-        console.error("Erro ao buscar dados:", error);
-      });
-  }, []);
+        .catch((error) => {
+          console.error("Erro ao buscar dados:", error);
+        });
+    }
+  }, [userId]);
 
   return (
     <Container fluid className="w-75 mt-3 bg-light">
@@ -58,46 +61,34 @@ const Registros = () => {
                       <th>Data</th>
                       <th>Venda</th>
                       <th>Produto</th>
-                      <th>Serviço</th>
                       <th>Tipo</th>
                       <th>Meio de Pagmento</th>
                       <th>Valor</th>
+                      <th>Serviço</th>
                     </tr>
                   </thead>
                   {
                     <tbody className="table-group-divider">
-                      {faturamentos.map((fat) => {
+                      {faturamentos.filter(fat => fat.usuarioId === userId).map((fat) => {
                         let nomesItems = [];
-                        let tipo = "";
-
+                        let tipo = '';
                         if (fat.produtosId && fat.produtosId.length > 0) {
-                          tipo = "Produto";
-                          nomesItems = fat.produtosId.map((id) => {
-                            const produto = produtos.find(
-                              (prod) => prod.id === id
-                            );
+                          tipo = 'Produto';
+                          nomesItems = fat.produtosId.map(id => {
+                            const produto = produtos.find(prod => prod.id === id);
                             if (!produto) {
-                              const servico = servicos.find(
-                                (serv) => serv.id === id
-                              );
-                              return servico
-                                ? servico.nome
-                                : "Item não encontrado";
+                              const servico = servicos.find(serv => serv.id === id);
+                              return servico ? servico.nome : 'Item não encontrado';
                             }
                             return produto.nome;
                           });
                         } else {
-                          tipo = "Serviço";
-                          nomesItems = fat.servicosId.map((id) => {
-                            const servico = servicos.find(
-                              (serv) => serv.id === id
-                            );
-                            return servico
-                              ? servico.nome
-                              : "Serviço não encontrado";
+                          tipo = 'Serviço';
+                          nomesItems = fat.servicosId.map(id => {
+                            const servico = servicos.find(serv => serv.id === id);
+                            return servico ? servico.nome : 'Serviço não encontrado';
                           });
                         }
-
                         return (
                           <tr key={fat.id}>
                             <td>{fat.dataFaturamento}</td>
@@ -134,7 +125,7 @@ const Registros = () => {
                   </thead>
                   {
                     <tbody className="table-group-divider">
-                      {despesas.map((des) => (
+                      {despesas.filter(des => des.usuarioId === userId).map((des) => (
                         <tr key={des.id}>
                           <td>{des.dataDespesa}</td>
                           <td>{des.nome}</td>
