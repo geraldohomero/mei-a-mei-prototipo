@@ -1,6 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
+import { useState } from "react";
 import "./header.css";
 
 import { FaUser } from "react-icons/fa";
@@ -20,12 +21,10 @@ const Header = () => {
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto color-navbar  gap-3">
+          <Nav className="ms-auto color-navbar gap-3">
             {!isAuthenticated ? (
               <>
-                <Nav.Link className="fw-bold" href="/meumei">
-                  Meu MEI
-                </Nav.Link>
+                <Nav.Link href="/meumei">Meu MEI</Nav.Link>
                 <Nav.Link href="/gerenciamento">Gerenciamento</Nav.Link>
                 <Nav.Link href="/registros">Registros</Nav.Link>
                 <Nav.Link href="/perfil">Perfil</Nav.Link>

@@ -1,59 +1,69 @@
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import ProgressBar from 'react-bootstrap/ProgressBar';
-import Tab from 'react-bootstrap/Tab';
-import Tabs from 'react-bootstrap/Tabs';
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
+import Button from "react-bootstrap/Button";
+import ProgressBar from "react-bootstrap/ProgressBar";
+import Tab from "react-bootstrap/Tab";
+import Tabs from "react-bootstrap/Tabs";
 
-import './faturamento.css'
-import RegistrarVendas from '../RegistrarVendas/RegistrarVendas';
-import RegistrarDespesas from '../RegistrarDespesas/RegistrarDespesas';
-import GraficoMes from '../Graficos/GraficoMes';
-import GraficoAno from '../Graficos/GraficoAno';
+import "./faturamento.css";
+import RegistrarVendas from "../RegistrarVendas/RegistrarVendas";
+import RegistrarDespesas from "../RegistrarDespesas/RegistrarDespesas";
+import GraficoMes from "../Graficos/GraficoMes";
+import GraficoAno from "../Graficos/GraficoAno";
+import { useState } from "react";
 
 const Faturamento = () => {
-  return (
-    <Container fluid className='w-75 mt-3 bg-light'>
-      <Row>
-        <Col className='border border-warning p-3 m-3'>
-          <Row>
+  const [grafico, setGrafico] = useState("mes");
 
-            <div className='d-flex justify-content-between'>
-              <h3 className=''>Seu Faturamento</h3>
+  return (
+    <Container fluid className="w-75 mt-3 bg-light">
+      <Row>
+        <Col className="border border-warning p-3 m-3 ">
+          <Row>
+            <div className="d-flex justify-content-between">
+              <h3 className="dark-purple-text fw-bold">Seu Faturamento</h3>
               <div>
-                <Button variant="dark">MÊS</Button>{' '}
-                <Button variant="dark">ANO</Button>
+                <button className="btn btn-criar">MÊS</button>{" "}
+                <button className="btn btn-criar">ANO</button>
               </div>
             </div>
             <Col>
               <div>
-                <h3>R$<span className='valor-receita p-3 text-success'>1.025,70</span></h3>
+                <h3 className="dark-purple-text">
+                  R$
+                  <span className="valor-receita p-3 text-success">
+                    1.025,70
+                  </span>
+                </h3>
               </div>
             </Col>
           </Row>
         </Col>
-        <Col className='border border-warning p-3 m-3'>
-          <div className='d-flex justify-content-between'>
-            <h3>Suas Despesas</h3>
+        <Col className="border border-warning p-3 m-3">
+          <div className="d-flex justify-content-between">
+            <h3 className="dark-purple-text fw-bold">Suas Despesas</h3>
             <div>
-              <Button variant="dark">MÊS</Button>{' '}
-              <Button variant="dark">ANO</Button>{' '}
+              <button className="btn btn-criar">MÊS</button>{" "}
+              <button className="btn btn-criar">ANO</button>
             </div>
           </div>
           <div>
-            <h3>R$<span className='valor-receita p-3 text-danger'>800,70</span></h3>
+            <h3 className="dark-purple-text">
+              R$<span className="valor-receita p-3 text-danger">800,70</span>
+            </h3>
           </div>
         </Col>
       </Row>
       <Row>
-        <div className='py-3 m-auto'>
-          <ProgressBar variant={'danger'} now={80} label={`${80}%`} />
+        <div className="py-3 m-auto ">
+          <h4 className="dark-purple-text fw-bold">Seu limite MEI</h4>
+          <ProgressBar variant={"danger"} now={80} label={`${80}%`} />
           <p></p>
         </div>
       </Row>
       <Row>
-        <Col className='border border-warning p-3 m-3 box'>
+        <Col className="border border-warning p-3 m-3 box">
           <Row>
             <Tabs
               defaultActiveKey="venda"
@@ -61,9 +71,11 @@ const Faturamento = () => {
               className="mb-3"
             >
               <Tab eventKey="venda" title="Vendas">
+                <h4 className="py-3 ps-1">Registre uma venda</h4>
                 <RegistrarVendas />
               </Tab>
               <Tab eventKey="despesas" title="Despesas">
+                <h4 className="py-3 ps-1">Registre uma despesa</h4>
                 <RegistrarDespesas />
               </Tab>
             </Tabs>
@@ -72,19 +84,49 @@ const Faturamento = () => {
       </Row>
       {/* Gráficos de despesas e receitas  */}
       <Row>
-        <Col className='border border-warning p-3 m-3'>
-          <div className='d-flex justify-content-between'>
-            <GraficoMes className='border border-warning p-3 m-3' />
-          </div>
-        </Col>
-        <Col className='border border-warning p-3 m-3'>
-          <div className='d-flex justify-content-between'>
-            <GraficoAno className='border border-warning p-3 m-3' />
-          </div>
-        </Col>
+        <div>
+          <Col className="border border-warning p-3 m-3 ">
+            <Row>
+              <Col className="col-4">
+                <h4 className="py-3 ps-1">Controle Financeiro</h4>
+              </Col>
+              <Col className="col-4 d-flex align-items-center justify-content-center">
+                <div>
+                  <div className="d-flex align-items-center">
+                    <button
+                      onClick={() => setGrafico("mes")}
+                      className="btn btn-criar"
+                    >
+                      MÊS
+                    </button>
+                    {"  "}
+                    <button
+                      onClick={() => setGrafico("ano")}
+                      className="btn btn-criar ms-1"
+                    >
+                      ANO
+                    </button>
+                  </div>
+                </div>
+              </Col>
+              <Col className="col-4"></Col>
+            </Row>
+            <Row>
+              <Col className="w-75 d-flex justify-content-center mb-4 dchart">
+                <div className="w-75">
+                  {grafico == "mes" ? (
+                    <GraficoMes className="border border-warning p-3 m-3" />
+                  ) : (
+                    <GraficoAno />
+                  )}
+                </div>
+              </Col>
+            </Row>
+          </Col>
+        </div>
       </Row>
-    </Container >
-  )
-}
+    </Container>
+  );
+};
 
-export default Faturamento
+export default Faturamento;
