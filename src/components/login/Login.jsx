@@ -14,7 +14,7 @@ const Login = () => {
     try {
       // Faz a autenticação usando o e-mail e a senha do usuário
       const authResponse = await fetch(
-        "http://localhost:5062/api/Usuarios/authenticate",
+        "https://localhost:7097/api/Usuarios/authenticate",
         {
           method: "POST",
           headers: {

@@ -11,6 +11,8 @@ import RegistrarDespesas from "../RegistrarDespesas/RegistrarDespesas";
 import GraficoMes from "../Graficos/GraficoMes";
 import GraficoAno from "../Graficos/GraficoAno";
 import { useState } from "react";
+import SaldoFaturamento from "../RegistrarVendas/SaldoVendas";
+import SaldoDespesa from "../RegistrarDespesas/SaldoDespesas";
 
 const Faturamento = () => {
   const [grafico, setGrafico] = useState("mes");
@@ -22,6 +24,7 @@ const Faturamento = () => {
           <Row>
             <div className="d-flex justify-content-between">
               <h3 className="dark-purple-text fw-bold">Seu Faturamento</h3>
+
               <div>
                 <button className="btn btn-criar">MÊS</button>{" "}
                 <button className="btn btn-criar">ANO</button>
@@ -32,7 +35,7 @@ const Faturamento = () => {
                 <h3 className="dark-purple-text">
                   R$
                   <span className="valor-receita p-3 text-success">
-                    1.025,70
+                    <SaldoFaturamento />
                   </span>
                 </h3>
               </div>
@@ -49,7 +52,11 @@ const Faturamento = () => {
           </div>
           <div>
             <h3 className="dark-purple-text">
-              R$<span className="valor-receita p-3 text-danger">800,70</span>
+              R$
+              <span className="valor-receita p-3 text-danger">
+                {" "}
+                <SaldoDespesa />{" "}
+              </span>
             </h3>
           </div>
         </Col>

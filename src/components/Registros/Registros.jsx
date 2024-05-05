@@ -1,9 +1,11 @@
+import { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Table from "react-bootstrap/Table";
 import { jwtDecode } from "jwt-decode";
-import { useState, useEffect } from "react";
+
+const API_URL = "https://localhost:7097/api";
 
 const Registros = () => {
   const [faturamentos, setFaturamentos] = useState([]);
@@ -12,133 +14,153 @@ const Registros = () => {
   const [servicos, setServicos] = useState([]);
   const [userId, setUserId] = useState(null);
 
-
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     const decodedToken = jwtDecode(token);
-    setUserId(decodedToken.nameid); // Atualizando o estado do userId
+    setUserId(decodedToken.nameid);
   }, []);
 
   useEffect(() => {
-    if (userId) { // Verificando se userId está definido
+    if (userId) {
       Promise.all([
-        fetch('http://localhost:5062/api/Faturamentos').then(response => response.json()),
-        fetch('http://localhost:5062/api/Despesas').then(response => response.json()),
-        fetch('http://localhost:5062/api/Produtos').then(response => response.json()),
-        fetch('http://localhost:5062/api/Servicos').then(response => response.json())
-      ]).then(([dataFaturamentos, dataDespesas, dataProdutos, dataServicos]) => {
-        console.log('Faturamentos ANTES da filtragem:', dataFaturamentos); // Log dos faturamentos antes da filtragem
-        const faturamentosFiltrados = dataFaturamentos.filter(fat => String(fat.usuarioId) === String(userId));
-        setFaturamentos(faturamentosFiltrados);
-        console.log('Faturamentos DEPOIS da filtragem:', faturamentosFiltrados); // Log dos faturamentos depois da filtragem
-
-        setDespesas(dataDespesas.filter(des => String(des.usuarioId) === String(userId)));
-        console.log("Despesas:", dataDespesas);
-
-        setProdutos(dataProdutos);
-        console.log("Produtos:", dataProdutos);
-
-        setServicos(dataServicos);
-        console.log("Serviços:", dataServicos);
-      })
+        fetch(`${API_URL}/Faturamentos`).then((response) => response.json()),
+        fetch(`${API_URL}/Despesas`).then((response) => response.json()),
+        fetch(`${API_URL}/Produtos`).then((response) => response.json()),
+        fetch(`${API_URL}/Servicos`).then((response) => response.json()),
+      ])
+        .then(
+          ([faturamentosData, despesasData, produtosData, servicosData]) => {
+            setFaturamentos(
+              faturamentosData.filter((fat) => fat.usuarioId === userId)
+            );
+            setDespesas(despesasData.filter((des) => des.usuarioId === userId));
+            setProdutos(produtosData.filter((pro) => pro.usuarioId === userId));
+            setServicos(servicosData.filter((ser) => ser.usuarioId === userId));
+          }
+        )
         .catch((error) => {
           console.error("Erro ao buscar dados:", error);
         });
     }
   }, [userId]);
 
+  const handleExcluirRegistro = async (tipo, id) => {
+    try {
+      const response = await fetch(`${API_URL}/${tipo}/${id}`, {
+        method: "DELETE",
+      });
+      if (!response.ok) {
+        throw new Error(`Erro ao excluir o ${tipo}`);
+      }
+      switch (tipo) {
+        case "Faturamentos":
+          setFaturamentos(faturamentos.filter((fat) => fat.id !== id));
+          break;
+        case "Despesas":
+          setDespesas(despesas.filter((des) => des.id !== id));
+          break;
+        case "Produtos":
+          setProdutos(produtos.filter((produto) => produto.id !== id));
+          break;
+        case "Servicos":
+          setServicos(servicos.filter((servico) => servico.id !== id));
+          break;
+        default:
+          break;
+      }
+    } catch (error) {
+      console.error(`Erro ao excluir o ${tipo}: `, error);
+    }
+  };
+
+  const renderTable = (headers, data, renderRow, type) => {
+    return (
+      <Table striped hover responsive size="sm">
+        <thead className="table-light ">
+          <tr>
+            {headers.map((header, index) => (
+              <th key={index}>{header}</th>
+            ))}
+            <th>Excluir</th>
+          </tr>
+        </thead>
+        <tbody className="table-group-divider">
+          {data.map((item) => renderRow(item))}
+        </tbody>
+      </Table>
+    );
+  };
+
+  const renderFaturamentosRow = (fat) => {
+    const produto = produtos.find((p) => p.id === fat.produtosId);
+    const servico = servicos.find((s) => s.id === fat.servicosId);
+
+    return (
+      <tr key={fat.id}>
+        <td>{fat.dataFaturamento}</td>
+        <td>{fat.nome}</td>
+        <td>{fat.produtoId === "Produto" ? produto?.nome : ""}</td>
+        <td>{fat.servicoId === "Serviço" ? servico?.nome : ""}</td>
+        <td>{fat.meioDePagamento}</td>
+        <td>{fat.valor}</td>
+        <td>
+          <button
+            onClick={() => handleExcluirRegistro("Faturamentos", fat.id)}
+            className="btn btn-danger btn-sm"
+          >
+            Excluir
+          </button>
+        </td>
+      </tr>
+    );
+  };
+
+  const renderDespesasRow = (des) => (
+    <tr key={des.id}>
+      <td>{des.dataDespesa}</td>
+      <td>{des.nome}</td>
+      <td>{des.categoriasId}</td>
+      <td>{des.valor}</td>
+      <td>
+        <button
+          onClick={() => handleExcluirRegistro("Despesas", des.id)}
+          className="btn btn-danger btn-sm"
+        >
+          Excluir
+        </button>
+      </td>
+    </tr>
+  );
+
   return (
     <Container fluid className="w-75 mt-3 bg-light">
       <Row>
         <Col className="border border-warning p-3 m-3 box">
-          <Row>
-            <Col>
-              <div className="b ">
-                <h3>Registros de vendas</h3>
-                <Table striped hover responsive size="sm">
-                  <thead className="table-light ">
-                    <tr>
-                      <th>Data</th>
-                      <th>Venda</th>
-                      <th>Produto</th>
-                      <th>Tipo</th>
-                      <th>Meio de Pagmento</th>
-                      <th>Valor</th>
-                      <th>Serviço</th>
-                    </tr>
-                  </thead>
-                  {
-                    <tbody className="table-group-divider">
-                      {faturamentos.filter(fat => fat.usuarioId === userId).map((fat) => {
-                        let nomesItems = [];
-                        let tipo = '';
-                        if (fat.produtosId && fat.produtosId.length > 0) {
-                          tipo = 'Produto';
-                          nomesItems = fat.produtosId.map(id => {
-                            const produto = produtos.find(prod => prod.id === id);
-                            if (!produto) {
-                              const servico = servicos.find(serv => serv.id === id);
-                              return servico ? servico.nome : 'Item não encontrado';
-                            }
-                            return produto.nome;
-                          });
-                        } else {
-                          tipo = 'Serviço';
-                          nomesItems = fat.servicosId.map(id => {
-                            const servico = servicos.find(serv => serv.id === id);
-                            return servico ? servico.nome : 'Serviço não encontrado';
-                          });
-                        }
-                        return (
-                          <tr key={fat.id}>
-                            <td>{fat.dataFaturamento}</td>
-                            <td>{fat.nome}</td>
-                            <td>{nomesItems.join(", ")}</td>
-                            <td>{tipo}</td>
-                            <td>{fat.meioDePagamento}</td>
-                            <td>{fat.valor}</td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  }
-                </Table>
-              </div>
-            </Col>
-          </Row>
+          <h3>Registros de vendas</h3>
+          {renderTable(
+            [
+              "Data",
+              "Venda",
+              "Produto",
+              "Serviço",
+              "Meio de Pagamento",
+              "Valor",
+            ],
+            faturamentos,
+            renderFaturamentosRow,
+            "Faturamentos"
+          )}
         </Col>
       </Row>
       <Row>
         <Col className="border border-warning p-3 m-3 box">
-          <Row>
-            <Col>
-              <div className="b">
-                <h3>Registros de despesas</h3>
-                <Table striped hover responsive size="sm">
-                  <thead className="table-light">
-                    <tr>
-                      <th>Data</th>
-                      <th>Despesa</th>
-                      <th>Categoria</th>
-                      <th>Valor</th>
-                    </tr>
-                  </thead>
-                  {
-                    <tbody className="table-group-divider">
-                      {despesas.filter(des => des.usuarioId === userId).map((des) => (
-                        <tr key={des.id}>
-                          <td>{des.dataDespesa}</td>
-                          <td>{des.nome}</td>
-                          <td>{des.categoriasId}</td>
-                          <td>{des.valor}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  }
-                </Table>
-              </div>
-            </Col>
-          </Row>
+          <h3>Registros de despesas</h3>
+          {renderTable(
+            ["Data", "Despesa", "Categoria", "Valor"],
+            despesas,
+            renderDespesasRow,
+            "Despesas"
+          )}
         </Col>
       </Row>
     </Container>
