@@ -17,7 +17,7 @@ function Registrar() {
     event.preventDefault();
 
     try {
-      const response = await axios.post("http://localhost:5062/api/Usuarios", {
+      const response = await axios.post("http://localhost:7097/api/Usuarios", {
         email,
         senha,
         nome,

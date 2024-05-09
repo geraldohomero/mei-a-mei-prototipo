@@ -16,7 +16,7 @@ function Perfil() {
     const userId = decodedToken && decodedToken.nameid;
 
     if (userId) {
-      fetch(`http://localhost:5062/api/Usuarios/${userId}`, {
+      fetch(`http://localhost:7097/api/Usuarios/${userId}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
