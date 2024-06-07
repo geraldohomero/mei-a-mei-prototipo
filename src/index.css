@@ -2,22 +2,36 @@
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
     Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
+
 #root {
   height: 100vh;
 }
+
 .purple-text {
+<<<<<<< HEAD
   color: #854936;
+=======
+  color: #754133;
+>>>>>>> e5d510d (update)
 }
+
 .dark-purple-text {
+<<<<<<< HEAD
   color: #499959;
+=======
+  color: #555459;
+>>>>>>> e5d510d (update)
 }
+
 .drv {
   width: 80%;
 }
+
 .drv input,
 .drv select {
   border-radius: 1px;
 }
+
 .dchart {
   max-height: 300px;
 }
@@ -46,6 +60,7 @@
   border-right: none;
   border-bottom: solid 3px;
 }
+
 .nav-link {
   font-weight: bold;
 }
