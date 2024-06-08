@@ -67,6 +67,5 @@ jobs:
         with:
           app-name: 'meiamei'
           slot-name: 'Production'
-          package: .
-          path: 'dist'
+          package: 'dist'
           
