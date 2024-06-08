@@ -68,4 +68,5 @@ jobs:
           app-name: 'meiamei'
           slot-name: 'Production'
           package: 'dist'
+          timeout: 10m
           
